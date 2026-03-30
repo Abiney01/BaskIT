@@ -1,10 +1,5 @@
 package com.app.app.Services
 
-import com.app.app.Models.Category
-import com.app.app.Repository.CategoryRepository
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
-
 @Service
 class CategoryService {
     @Autowired
