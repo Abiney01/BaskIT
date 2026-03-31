@@ -1,0 +1,201 @@
+Index: backend/src/main/kotlin/com/app/baskit/Models/Category.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Models\r\n\r\nimport jakarta.persistence.*\r\n\r\n@Entity\r\n@Table(name = \"category\")\r\nclass Category {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    var categoryId: Long? = null\r\n\r\n    var categoryName: String? = null\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Models/Category.kt b/backend/src/main/kotlin/com/app/baskit/Models/Category.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Models/Category.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Models/Category.kt	(date 1774972619711)
+@@ -1,4 +1,4 @@
+-package com.app.app.Models
++package com.app.baskit.Models
+ 
+ import jakarta.persistence.*
+ 
+Index: backend/src/main/kotlin/com/app/baskit/Repository/CategoryRepository.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Repository\r\n\r\nimport com.app.app.Models.Category\r\nimport org.springframework.data.jpa.repository.JpaRepository\r\nimport org.springframework.stereotype.Repository\r\n\r\n@Repository\r\ninterface CategoryRepository : JpaRepository<Category, Long>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Repository/CategoryRepository.kt b/backend/src/main/kotlin/com/app/baskit/Repository/CategoryRepository.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Repository/CategoryRepository.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Repository/CategoryRepository.kt	(date 1774972744786)
+@@ -1,6 +1,6 @@
+-package com.app.app.Repository
++package com.app.baskit.Repository
+ 
+-import com.app.app.Models.Category
++import com.app.baskit.Models.Category
+ import org.springframework.data.jpa.repository.JpaRepository
+ import org.springframework.stereotype.Repository
+ 
+Index: backend/src/main/kotlin/com/app/baskit/Controller/CategoryController.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Controller\r\n\r\nimport com.app.app.Models.Category\r\nimport com.app.app.Services.CategoryService\r\nimport org.springframework.http.ResponseEntity\r\nimport org.springframework.web.bind.annotation.*\r\n\r\n@CrossOrigin(origins = [\"http://localhost:3000\"])\r\n@RestController\r\n@RequestMapping(\"/api/categories\")\r\nclass CategoryController(\r\n    private val categoryService: CategoryService   // ✅ constructor injection\r\n) {\r\n\r\n    @GetMapping\r\n    fun getAllCategories(): List<Category> =\r\n        categoryService.getAllCategories()\r\n\r\n    @GetMapping(\"/{id}\")\r\n    fun getCategoryById(@PathVariable id: Long): ResponseEntity<Category> {\r\n        return ResponseEntity.ok(categoryService.getCategoryById(id))\r\n    }\r\n\r\n    @PostMapping\r\n    fun createCategory(@RequestBody category: Category): ResponseEntity<Category> {\r\n        return ResponseEntity.ok(categoryService.createCategory(category))\r\n    }\r\n\r\n    @PutMapping(\"/{id}\")\r\n    fun updateCategory(\r\n        @PathVariable id: Long,\r\n        @RequestBody category: Category\r\n    ): ResponseEntity<Category> {\r\n        return ResponseEntity.ok(categoryService.updateCategory(id, category))\r\n    }\r\n\r\n    @DeleteMapping(\"/{id}\")\r\n    fun deleteCategory(@PathVariable id: Long): ResponseEntity<Void> {\r\n        categoryService.deleteCategory(id)\r\n        return ResponseEntity.noContent().build()\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Controller/CategoryController.kt b/backend/src/main/kotlin/com/app/baskit/Controller/CategoryController.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Controller/CategoryController.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Controller/CategoryController.kt	(date 1774972744765)
+@@ -1,7 +1,7 @@
+ package com.app.app.Controller
+ 
+-import com.app.app.Models.Category
+-import com.app.app.Services.CategoryService
++import com.app.baskit.Models.Category
++import com.app.baskit.Service.CategoryService
+ import org.springframework.http.ResponseEntity
+ import org.springframework.web.bind.annotation.*
+ 
+Index: backend/src/main/kotlin/com/app/baskit/Repository/UserDetailsRepository.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Repository\r\n\r\nimport com.app.app.Models.UserDetails\r\nimport org.springframework.data.jpa.repository.JpaRepository\r\nimport org.springframework.stereotype.Repository\r\n\r\n@Repository\r\ninterface UserDetailsRepository : JpaRepository<UserDetails?, Long?> {\r\n    fun findByEmail(email: String?): UserDetails?\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Repository/UserDetailsRepository.kt b/backend/src/main/kotlin/com/app/baskit/Repository/UserDetailsRepository.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Repository/UserDetailsRepository.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Repository/UserDetailsRepository.kt	(date 1774973173124)
+@@ -1,10 +1,10 @@
+-package com.app.app.Repository
++package com.app.baskit.Repository
+ 
+-import com.app.app.Models.UserDetails
++import com.app.baskit.Models.UserDetails
+ import org.springframework.data.jpa.repository.JpaRepository
+ import org.springframework.stereotype.Repository
+ 
+ @Repository
+-interface UserDetailsRepository : JpaRepository<UserDetails?, Long?> {
++interface UserDetailsRepository : JpaRepository<UserDetails, Long?> {
+     fun findByEmail(email: String?): UserDetails?
+ }
+\ No newline at end of file
+Index: backend/src/main/kotlin/com/app/baskit/Service/UserDetailsService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Services\r\n\r\nimport com.app.app.Models.UserDetails\r\nimport com.app.app.Repository.UserDetailsRepository\r\nimport org.springframework.beans.factory.annotation.Autowired\r\nimport org.springframework.stereotype.Service\r\n\r\n@Service\r\nclass UserDetailsService @Autowired constructor(private val userDetailsRepository: UserDetailsRepository) {\r\n    init {\r\n        println(\"✅ UserDetailsService Initialized by Spring\")\r\n    }\r\n\r\n    val allUsers: MutableList<UserDetails?>\r\n        get() = userDetailsRepository.findAll()\r\n\r\n    fun getUserById(id: Long?): UserDetails {\r\n        return userDetailsRepository.findById(id)\r\n            .orElseThrow({ RuntimeException(\"User not found with ID: \" + id) })\r\n    }\r\n\r\n    fun getUserByEmail(email: String?): UserDetails? {\r\n        return userDetailsRepository.findByEmail(email)\r\n    }\r\n\r\n    fun createUser(userDetails: UserDetails?): UserDetails {\r\n        println(\"Saving user: \" + userDetails)\r\n        val savedUser: UserDetails = userDetailsRepository.save(userDetails)\r\n        println(\"Saved user ID: \" + savedUser.userId)\r\n        return savedUser\r\n    }\r\n\r\n\r\n    fun updateUser(id: Long?, userDetails: UserDetails): UserDetails {\r\n        val existingUser = getUserById(id)\r\n        existingUser.phoneNo = userDetails.phoneNo\r\n        existingUser.name = userDetails.name\r\n        existingUser.email = userDetails.email\r\n        existingUser.address = userDetails.address\r\n        existingUser.setLocation(userDetails.getLocation())\r\n        existingUser.password = userDetails.password\r\n        return userDetailsRepository.save(existingUser)\r\n    }\r\n\r\n    fun deleteUser(id: Long?) {\r\n        userDetailsRepository.deleteById(id)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Service/UserDetailsService.kt b/backend/src/main/kotlin/com/app/baskit/Service/UserDetailsService.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Service/UserDetailsService.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Service/UserDetailsService.kt	(date 1774973173110)
+@@ -1,48 +1,48 @@
+-package com.app.app.Services
++package com.app.baskit.Service
+ 
+-import com.app.app.Models.UserDetails
+-import com.app.app.Repository.UserDetailsRepository
+-import org.springframework.beans.factory.annotation.Autowired
++import com.app.baskit.Models.UserDetails
++import com.app.baskit.Repository.UserDetailsRepository
+ import org.springframework.stereotype.Service
+ 
+ @Service
+-class UserDetailsService @Autowired constructor(private val userDetailsRepository: UserDetailsRepository) {
+-    init {
+-        println("✅ UserDetailsService Initialized by Spring")
+-    }
++class UserDetailsService(
++    private val userDetailsRepository: UserDetailsRepository   // ✅ constructor injection
++) {
+ 
+-    val allUsers: MutableList<UserDetails?>
+-        get() = userDetailsRepository.findAll()
++    fun getAllUsers(): List<UserDetails> {
++        return userDetailsRepository.findAll()
++    }
+ 
+-    fun getUserById(id: Long?): UserDetails {
++    fun getUserById(id: Long): UserDetails {
+         return userDetailsRepository.findById(id)
+-            .orElseThrow({ RuntimeException("User not found with ID: " + id) })
++            .orElseThrow { RuntimeException("User not found with ID: $id") }
+     }
+ 
+-    fun getUserByEmail(email: String?): UserDetails? {
++    fun getUserByEmail(email: String): UserDetails? {
+         return userDetailsRepository.findByEmail(email)
+     }
+ 
+-    fun createUser(userDetails: UserDetails?): UserDetails {
+-        println("Saving user: " + userDetails)
+-        val savedUser: UserDetails = userDetailsRepository.save(userDetails)
+-        println("Saved user ID: " + savedUser.userId)
++    fun createUser(userDetails: UserDetails): UserDetails {
++        println("Saving user: $userDetails")
++        val savedUser = userDetailsRepository.save(userDetails)
++        println("Saved user ID: ${savedUser.userId}")
+         return savedUser
+     }
+ 
+-
+-    fun updateUser(id: Long?, userDetails: UserDetails): UserDetails {
++    fun updateUser(id: Long, userDetails: UserDetails): UserDetails {
+         val existingUser = getUserById(id)
++
+         existingUser.phoneNo = userDetails.phoneNo
+         existingUser.name = userDetails.name
+         existingUser.email = userDetails.email
+         existingUser.address = userDetails.address
+-        existingUser.setLocation(userDetails.getLocation())
++        existingUser.location = userDetails.location   // ✅ no getters/setters
+         existingUser.password = userDetails.password
++
+         return userDetailsRepository.save(existingUser)
+     }
+ 
+-    fun deleteUser(id: Long?) {
++    fun deleteUser(id: Long) {
+         userDetailsRepository.deleteById(id)
+     }
+ }
+\ No newline at end of file
+Index: backend/src/main/kotlin/com/app/baskit/Models/Review.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Models\r\n\r\nimport jakarta.persistence.*\r\nimport java.time.LocalDateTime\r\n\r\n@Entity\r\n@Table(name = \"review\")\r\nclass Review {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    var reviewId: Long? = null\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"user_id\")\r\n    var user: UserDetails? = null\r\n\r\n    @ManyToOne\r\n    @JoinColumn(name = \"item_id\")\r\n    private var item: Item? = null\r\n\r\n    var ratings: Int? = null\r\n    var comments: String? = null\r\n    var reviewDate: LocalDateTime? = null\r\n\r\n    fun getItem(): Item? {\r\n        return item\r\n    }\r\n\r\n    fun setItem(item: Item?) {\r\n        this.item = item\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Models/Review.kt b/backend/src/main/kotlin/com/app/baskit/Models/Review.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Models/Review.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Models/Review.kt	(date 1774972619725)
+@@ -1,5 +1,7 @@
+-package com.app.app.Models
++package com.app.baskit.Models
+ 
++import com.app.baskit.Models.Item
++import com.app.baskit.Models.UserDetails
+ import jakarta.persistence.*
+ import java.time.LocalDateTime
+ 
+Index: backend/src/main/kotlin/com/app/baskit/Service/CategoryService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.app.app.Services\r\n\r\nimport com.app.app.Models.Category\r\nimport com.app.app.Repository.CategoryRepository\r\nimport org.springframework.stereotype.Service\r\n\r\n@Service\r\nclass CategoryService(\r\n    private val categoryRepository: CategoryRepository   // ✅ constructor injection\r\n) {\r\n\r\n    // ✅ THIS FIXES YOUR RED ERROR\r\n    fun getAllCategories(): List<Category> {\r\n        return categoryRepository.findAll()\r\n    }\r\n\r\n    fun getCategoryById(id: Long): Category {\r\n        return categoryRepository.findById(id)\r\n            .orElseThrow { RuntimeException(\"Category not found with ID: $id\") }\r\n    }\r\n\r\n    fun createCategory(category: Category): Category {\r\n        return categoryRepository.save(category)\r\n    }\r\n\r\n    fun updateCategory(id: Long, category: Category): Category {\r\n        val existingCategory = getCategoryById(id)\r\n        existingCategory.categoryName = category.categoryName\r\n        return categoryRepository.save(existingCategory)\r\n    }\r\n\r\n    fun deleteCategory(id: Long) {\r\n        categoryRepository.deleteById(id)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/kotlin/com/app/baskit/Service/CategoryService.kt b/backend/src/main/kotlin/com/app/baskit/Service/CategoryService.kt
+--- a/backend/src/main/kotlin/com/app/baskit/Service/CategoryService.kt	(revision f54d1fa16c7f392cd7bdd8b1fd61832a77ea1669)
++++ b/backend/src/main/kotlin/com/app/baskit/Service/CategoryService.kt	(date 1774972773818)
+@@ -1,7 +1,7 @@
+-package com.app.app.Services
++package com.app.baskit.Service
+ 
+-import com.app.app.Models.Category
+-import com.app.app.Repository.CategoryRepository
++import com.app.baskit.Models.Category
++import com.app.baskit.Repository.CategoryRepository
+ import org.springframework.stereotype.Service
+ 
+ @Service
