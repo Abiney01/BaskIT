@@ -1,92 +1,33 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import api from '../lib/apiClient';
-import toast from 'react-hot-toast';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle } from 'lucide-react';
 
-const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+const OrderSuccess: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await api.post('/auth/login', { email, password });
-      if (res.status === 200 && res.data.userId) {
-        const { userId, name, email: userEmail, locationId, address } = res.data;
-        sessionStorage.setItem('user', JSON.stringify({ userId, name, email: userEmail, locationId, address }));
-        toast.success('Login Successful');
-        navigate('/');
-      }
-    } catch {
-      toast.error('Invalid credentials or user not found');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-8">
-        <div className="flex justify-center mb-4">
-          <img src="/logo.png" alt="Baskit" className="h-14" />
-        </div>
-        <h2 className="text-center text-2xl font-bold text-gray-700 mb-4">Login</h2>
-        <hr className="mb-6" />
-
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-gray-600 text-sm font-semibold mb-1">Email</label>
-            <input
-              type="email"
-              className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-              placeholder="Enter Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-600 text-sm font-semibold mb-1">Password</label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                className="w-full p-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
-                placeholder="Enter Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                onClick={() => setShowPassword(p => !p)}
-              >
-                {showPassword ? '🙈' : '👁️'}
-              </button>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-2.5 text-white rounded-lg font-semibold transition ${loading ? 'bg-gray-400' : 'bg-green-600 hover:bg-green-700'}`}
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-
-          <p className="text-center text-sm text-gray-600">
-            Don't have an account?{' '}
-            <Link to="/register" className="text-green-600 hover:underline font-medium">Register here</Link>
-          </p>
-        </form>
+    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4">
+      <CheckCircle className="w-24 h-24 text-green-500 mb-6" />
+      <h1 className="text-3xl font-bold text-gray-800 mb-2">Order Placed Successfully!</h1>
+      <p className="text-gray-500 text-center max-w-md mb-8">
+        Thank you for shopping with Baskit. Your order is being processed and will be delivered shortly.
+      </p>
+      <div className="flex gap-4">
+        <button
+          onClick={() => navigate('/')}
+          className="px-6 py-2.5 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
+        >
+          Continue Shopping
+        </button>
+        <button
+          onClick={() => navigate('/profile')}
+          className="px-6 py-2.5 border border-green-600 text-green-600 rounded-lg font-semibold hover:bg-green-50 transition"
+        >
+          My Orders
+        </button>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default OrderSuccess;
